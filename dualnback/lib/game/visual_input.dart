@@ -1,0 +1,5 @@
+class VisualInput{
+  // shape
+
+  // Color
+}
