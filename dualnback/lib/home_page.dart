@@ -1,9 +1,29 @@
+import 'package:dualnback/game/game_page.dart';
+import 'package:dualnback/settings_page.dart';
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  final String title;
+
+  MyHomePage({Key key, @required this.title}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() => _MyHomePageState(title);
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  _MyHomePageState(this.title);
+
 
   final String title;
+  int _currentIndex = 0;
+  final List<Widget> _children = [GamePage(), SettingsPage()];
+
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +32,20 @@ class MyHomePage extends StatelessWidget {
         title: Text(this.title),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              'hi',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
+      body: _children[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTabTapped,
+        currentIndex: _currentIndex,
+        items: [
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.apps),
+            title: Text('Play'),
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            title: Text('Settings'),
+          ),
+        ],
       ),
     );
   }
