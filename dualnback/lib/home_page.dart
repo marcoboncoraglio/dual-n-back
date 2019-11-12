@@ -1,5 +1,6 @@
-import 'package:dualnback/game/game_page.dart';
+import 'package:dualnback/game_page.dart';
 import 'package:dualnback/settings_page.dart';
+import 'package:dualnback/statistics_page.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final String title;
   int _currentIndex = 0;
-  final List<Widget> _children = [GamePage(), SettingsPage()];
+  final List<Widget> _children = [GamePage(), SettingsPage(), StatisticsPage()];
 
 
   void onTabTapped(int index) {
@@ -44,6 +45,10 @@ class _MyHomePageState extends State<MyHomePage> {
           new BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             title: Text('Settings'),
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.assessment),
+            title: Text('Statistics'),
           ),
         ],
       ),
