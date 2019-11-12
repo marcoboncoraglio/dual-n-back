@@ -1,5 +1,12 @@
-class VisualInput{
-  // shape
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-  // Color
+class VisualInput {
+  VisualInput(BoxShape shape, Color color){
+    this.shape = shape;
+    this.color = color;
+  }
+
+  BoxShape shape;
+  Color color;
 }
