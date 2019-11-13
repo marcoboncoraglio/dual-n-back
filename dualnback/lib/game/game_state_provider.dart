@@ -2,9 +2,11 @@ import 'package:flutter/widgets.dart';
 
 import 'game_round.dart';
 
-class GameRoundsProvider with ChangeNotifier {
-  List<GameRound> gameRounds = [];
-  int currentRound = -1;
+class GameStateProvider with ChangeNotifier {
+  List<GameRound> gameRounds = [new GameRound()];
+  int currentRound = 0;
+  int level = 1;
+  int timerInterval = 2000;
 
   void generateNewRound() {
     gameRounds.add(new GameRound());

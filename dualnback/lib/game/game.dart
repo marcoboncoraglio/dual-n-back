@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:dualnback/game/game_buttons.dart';
 import 'package:dualnback/game/game_round.dart';
-import 'package:dualnback/game/game_rounds_provider.dart';
 import 'package:dualnback/game/grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'game_state_provider.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -14,19 +15,17 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
   Timer timer;
-  int level = 1;
 
   void generateNewRound() {
-    setState(() {
-      Provider.of<GameRoundsProvider>(context, listen: false).generateNewRound();
-    });
+    Provider.of<GameStateProvider>(context).generateNewRound();
   }
 
   @override
   void initState() {
+    int timerInterval = Provider.of<GameStateProvider>(context, listen: false).timerInterval;
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => generateNewRound());
-    generateNewRound();
+    timer = Timer.periodic(
+        Duration(milliseconds: timerInterval), (Timer t) => generateNewRound());
   }
 
   @override
@@ -37,8 +36,13 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
-    List<GameRound> gameRounds = Provider.of<GameRoundsProvider>(context, listen: false).gameRounds;
-    int currentRound = Provider.of<GameRoundsProvider>(context, listen: false).currentRound;
+    List<GameRound> gameRounds =
+        Provider.of<GameStateProvider>(context, listen: false).gameRounds;
+
+    int currentRound =
+        Provider.of<GameStateProvider>(context, listen: false).currentRound;
+
+    int level = Provider.of<GameStateProvider>(context, listen: false).level;
 
     return Column(children: <Widget>[
       new Padding(
