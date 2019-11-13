@@ -30,7 +30,7 @@ class _GridState extends State<Grid> {
     return Column(children: <Widget>[
       new Expanded(
         child: new GridView.builder(
-          padding: const EdgeInsets.all(40.0),
+          padding: const EdgeInsets.all(35.0),
           gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               childAspectRatio: 1.0,
