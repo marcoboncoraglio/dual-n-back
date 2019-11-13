@@ -6,6 +6,7 @@ import 'package:dualnback/game/grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../game_settings_provider.dart';
 import 'game_state_provider.dart';
 
 class Game extends StatefulWidget {
@@ -22,7 +23,7 @@ class _GameState extends State<Game> {
 
   @override
   void initState() {
-    int timerInterval = Provider.of<GameStateProvider>(context, listen: false).timerInterval;
+    int timerInterval = Provider.of<GameSettingsProvider>(context, listen: false).timerInterval;
     super.initState();
     timer = Timer.periodic(
         Duration(milliseconds: timerInterval), (Timer t) => generateNewRound());
@@ -42,7 +43,7 @@ class _GameState extends State<Game> {
     int currentRound =
         Provider.of<GameStateProvider>(context, listen: false).currentRound;
 
-    int level = Provider.of<GameStateProvider>(context, listen: false).level;
+    int level = Provider.of<GameSettingsProvider>(context, listen: false).level;
 
     return Column(children: <Widget>[
       new Padding(
