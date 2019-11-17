@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import './game_state_provider.dart';
 
 class GameButtons extends StatefulWidget {
   @override
@@ -8,6 +11,23 @@ class GameButtons extends StatefulWidget {
 class _GameButtonsState extends State<GameButtons> {
   @override
   Widget build(BuildContext context) {
+    final gameStateProvider =
+        Provider.of<GameStateProvider>(context, listen: true);
+
+    int correct = gameStateProvider.optionCounters.values
+        .map((tuple) => tuple.item2)
+        .reduce((curr, next) => curr + next);
+
+    // possible - correct + pressed wrong
+    int wrong = gameStateProvider.optionCounters.values
+            .map((tuple) => tuple.item1)
+            .reduce((curr, next) => curr + next) +
+        gameStateProvider.optionCounters.values
+            .map((tuple) => tuple.item3)
+            .reduce((curr, next) => curr + next) -
+        correct;
+
+    // TODO: refactor to custom button, pass in matchoption
     return Row(
       children: <Widget>[
         new Column(children: <Widget>[
@@ -15,11 +35,15 @@ class _GameButtonsState extends State<GameButtons> {
             height: 50,
             width: 160,
             child: new RaisedButton(
-                onPressed: null,
+                onPressed: () =>
+                    gameStateProvider.pressedOption(MatchOption.POSITION),
                 child: Text("POSITION",
                     style: TextStyle(fontSize: 20, color: Colors.black))),
           ),
-          new Text("Correct")
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: new Text("Correct: $correct"),
+          )
         ]),
         new Padding(padding: EdgeInsets.only(right: 15)),
         new Column(
@@ -28,11 +52,15 @@ class _GameButtonsState extends State<GameButtons> {
               height: 50,
               width: 160,
               child: new RaisedButton(
-                  onPressed: null,
+                  onPressed: () =>
+                      gameStateProvider.pressedOption(MatchOption.SOUND),
                   child: Text("SOUND",
                       style: TextStyle(fontSize: 20, color: Colors.black))),
             ),
-            new Text("Wrong")
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: new Text("Wrong: $wrong"),
+            )
           ],
         ),
         /*

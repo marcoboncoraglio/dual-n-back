@@ -1,6 +1,7 @@
-class AuditoryInput{
-  //sound 
-  String letter = "l";
-
-  //import sounds from alphabet, load them into playable
+//TODO: implement text to speech
+class AuditoryInput {
+  AuditoryInput() {
+    letter = "l";
+  }
+  String letter;
 }

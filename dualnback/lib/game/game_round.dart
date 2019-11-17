@@ -6,12 +6,15 @@ import 'package:flutter/material.dart';
 
 class GameRound{
   GameRound(){
-    visualInput = new  VisualInput(BoxShape.rectangle, Colors.black);
+    visualInput = new VisualInput(BoxShape.rectangle, Colors.black);
     auditoryInput = new AuditoryInput();
-    randomIndex = new Random().nextInt(9);
+    index = new Random().nextInt(9);
   }
 
   VisualInput visualInput;
   AuditoryInput auditoryInput;
-  int randomIndex;
+  int index;
+  
+  bool positionPressed = false;
+  bool soundPressed = false;
 }
