@@ -9,5 +9,4 @@ class VisualInput {
 
   BoxShape shape;
   Color color;
-  int position;
 }

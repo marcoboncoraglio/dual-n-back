@@ -22,7 +22,8 @@ class _GameState extends State<Game> {
 
   @override
   void initState() {
-    int timerInterval = Provider.of<GameStateProvider>(context, listen: false).timerInterval;
+    int timerInterval =
+        Provider.of<GameStateProvider>(context, listen: false).timerInterval;
     super.initState();
     timer = Timer.periodic(
         Duration(milliseconds: timerInterval), (Timer t) => generateNewRound());
@@ -43,6 +44,9 @@ class _GameState extends State<Game> {
         Provider.of<GameStateProvider>(context, listen: false).currentRound;
 
     int level = Provider.of<GameStateProvider>(context, listen: false).level;
+
+    // speak after build is complete
+    WidgetsBinding.instance.addPostFrameCallback(gameRounds[currentRound].auditoryInput.speak());
 
     return Column(children: <Widget>[
       new Padding(

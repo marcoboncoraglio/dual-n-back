@@ -54,8 +54,8 @@ class GameStateProvider with ChangeNotifier {
 
   pressedOption(MatchOption option) {
     if (gameRounds.length - level > 0) {
-      if (!gameRounds[currentRound].positionPressed) {
-        gameRounds[currentRound].positionPressed = true;
+      if (!gameRounds[currentRound].pressed[option]) {
+        gameRounds[currentRound].pressed[option] = true;
         if (_checkMatching(option)) {
           optionCounters[option] = new Tuple3(
               optionCounters[option].item1, optionCounters[option].item2 + 1, optionCounters[option].item3);
