@@ -62,7 +62,6 @@ class GameStateProvider with ChangeNotifier {
         }
         else optionCounters[option] = new Tuple3(
               optionCounters[option].item1, optionCounters[option].item2, optionCounters[option].item3 + 1);
-        notifyListeners();
       }
     }
   }
