@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dualnback/game/game_buttons.dart';
 import 'package:dualnback/game/game_round.dart';
 import 'package:dualnback/game/grid.dart';
+import 'package:dualnback/game/play_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,17 +17,17 @@ class Game extends StatefulWidget {
 class _GameState extends State<Game> {
   Timer timer;
 
-  void generateNewRound() {
+  void _generateNewRound() {
     Provider.of<GameStateProvider>(context).generateNewRound();
   }
 
-  @override
-  void initState() {
-    int timerInterval =
-        Provider.of<GameStateProvider>(context, listen: false).timerInterval;
-    super.initState();
-    timer = Timer.periodic(
-        Duration(milliseconds: timerInterval), (Timer t) => generateNewRound());
+  void _startGameTimer() {
+    if (timer == null) {
+      int timerInterval =
+          Provider.of<GameStateProvider>(context, listen: false).timerInterval;
+      timer = Timer.periodic(Duration(milliseconds: timerInterval),
+          (Timer t) => _generateNewRound());
+    }
   }
 
   @override
@@ -37,27 +38,35 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
-    List<GameRound> gameRounds =
-        Provider.of<GameStateProvider>(context, listen: false).gameRounds;
+    var gameStateProvider =
+        Provider.of<GameStateProvider>(context, listen: true);
 
-    int currentRound =
-        Provider.of<GameStateProvider>(context, listen: false).currentRound;
+    List<GameRound> gameRounds = gameStateProvider.gameRounds;
 
-    int level = Provider.of<GameStateProvider>(context, listen: false).level;
+    int currentRound = gameStateProvider.currentRound;
 
-    // speak after build is complete
-    WidgetsBinding.instance.addPostFrameCallback(gameRounds[currentRound].auditoryInput.speak());
+    int level = gameStateProvider.level;
+
+    // speak after build, make sure it only played when state is correct
+    if (gameStateProvider.isPlaying) {
+      gameRounds[currentRound].auditoryInput.speak();
+      _startGameTimer();
+    }
 
     return Column(children: <Widget>[
       new Padding(
           padding: EdgeInsets.only(top: 15),
           child: new Center(child: Text("N = $level"))),
       new Expanded(
-          child: new Grid(gameRounds[currentRound].index,
-              gameRounds[currentRound].visualInput)),
+          child: gameStateProvider.isPlaying
+              ? new Grid(gameRounds[currentRound].index,
+                  gameRounds[currentRound].visualInput)
+              : new Grid.init()),
       new Padding(
-          padding: EdgeInsets.only(right: 20, bottom: 30, left: 20),
-          child: new GameButtons()),
+          padding: EdgeInsets.only(right: 20, bottom: 35, left: 20),
+          child: gameStateProvider.isPlaying
+              ? new GameButtons()
+              : new PlayButton())
     ]);
   }
 }

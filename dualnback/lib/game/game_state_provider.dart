@@ -9,9 +9,10 @@ class GameStateProvider with ChangeNotifier {
   List<GameRound> gameRounds = [new GameRound()];
   int currentRound = 0;
 
+  bool isPlaying = false;
+
   int level = 1;
   int timerInterval = 2000;
-
   // option to correct, right, wrong
   Map<MatchOption, Tuple3<int, int, int>> optionCounters = {
     MatchOption.POSITION: new Tuple3(0, 0, 0),
@@ -19,6 +20,11 @@ class GameStateProvider with ChangeNotifier {
     //MatchOption.SHAPE: new Tuple2(0, 0),
     //MatchOption.COLOR: new Tuple2(0, 0)
   };
+
+  toggleIsPlaying(){
+    isPlaying = !isPlaying;
+    notifyListeners();
+  }
 
   generateNewRound() {
     _checkOptions();

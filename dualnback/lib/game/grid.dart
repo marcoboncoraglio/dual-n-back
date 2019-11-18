@@ -6,6 +6,13 @@ class Grid extends StatefulWidget {
   List<GridItem> gridItems = [];
 
   // take element nr
+  Grid.init() {
+    for (int i = 0; i < 9; i++) {
+      gridItems
+          .add(new GridItem(new VisualInput(BoxShape.rectangle, Colors.grey)));
+    }
+  }
+
   Grid(int index, VisualInput visInput) {
     for (int i = 0; i < 9; i++) {
       if (i == index)
