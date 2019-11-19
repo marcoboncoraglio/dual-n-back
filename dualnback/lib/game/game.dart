@@ -30,15 +30,20 @@ class _GameState extends State<Game> {
     }
   }
 
+  void _reset() {
+    //Provider.of<GameStateProvider>(context, listen: false).reset();
+  }
+
   @override
   void dispose() {
+    _reset();
     timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var gameStateProvider =
+    GameStateProvider gameStateProvider =
         Provider.of<GameStateProvider>(context, listen: true);
 
     List<GameRound> gameRounds = gameStateProvider.gameRounds;
@@ -71,7 +76,7 @@ class _GameState extends State<Game> {
                   gameRounds[currentRound].visualInput)
               : new Grid.init()),
       new Padding(
-          padding: EdgeInsets.only(right: 20, bottom: 35, left: 20),
+          padding: EdgeInsets.only(right: 20, bottom: 50, left: 20),
           child: gameStateProvider.isPlaying
               ? new GameButtons()
               : new PlayButton())

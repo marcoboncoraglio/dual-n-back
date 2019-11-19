@@ -12,6 +12,7 @@ class GameStateProvider with ChangeNotifier {
   bool isPlaying = false;
 
   int level = 1;
+  
   int timerInterval = 2000;
   // option to correct, right, wrong
   Map<MatchOption, Tuple3<int, int, int>> optionCounters = {
@@ -21,7 +22,7 @@ class GameStateProvider with ChangeNotifier {
     //MatchOption.COLOR: new Tuple2(0, 0)
   };
 
-  toggleIsPlaying(){
+  toggleIsPlaying() {
     isPlaying = !isPlaying;
     notifyListeners();
   }
@@ -31,6 +32,13 @@ class GameStateProvider with ChangeNotifier {
     gameRounds.add(new GameRound());
     currentRound++;
     notifyListeners();
+  }
+
+  reset() {
+    // if complete, save round to sqlite
+    currentRound = 0;
+    gameRounds = [new GameRound()];
+    isPlaying = false;
   }
 
   bool _checkMatching(MatchOption option) {
@@ -63,11 +71,11 @@ class GameStateProvider with ChangeNotifier {
       if (!gameRounds[currentRound].pressed[option]) {
         gameRounds[currentRound].pressed[option] = true;
         if (_checkMatching(option)) {
-          optionCounters[option] = new Tuple3(
-              optionCounters[option].item1, optionCounters[option].item2 + 1, optionCounters[option].item3);
-        }
-        else optionCounters[option] = new Tuple3(
-              optionCounters[option].item1, optionCounters[option].item2, optionCounters[option].item3 + 1);
+          optionCounters[option] = new Tuple3(optionCounters[option].item1,
+              optionCounters[option].item2 + 1, optionCounters[option].item3);
+        } else
+          optionCounters[option] = new Tuple3(optionCounters[option].item1,
+              optionCounters[option].item2, optionCounters[option].item3 + 1);
       }
     }
   }

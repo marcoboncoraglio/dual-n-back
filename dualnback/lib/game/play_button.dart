@@ -8,7 +8,7 @@ class PlayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var gameStateProvider =
+    GameStateProvider gameStateProvider =
         Provider.of<GameStateProvider>(context, listen: true);
 
     return Container(

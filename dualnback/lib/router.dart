@@ -4,20 +4,23 @@ import 'package:dualnback/game_page.dart';
 import 'package:dualnback/settings_page.dart';
 import 'package:dualnback/statistics_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+import 'game/game_state_provider.dart';
+
+class Router extends StatefulWidget {
+  Router({Key key}) : super(key: key);
   @override
-  State<StatefulWidget> createState() => _MyHomePageState();
+  State<StatefulWidget> createState() => _RouterState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  _MyHomePageState();
+class _RouterState extends State<Router> {
+  _RouterState();
 
   int _currentIndex = 0;
-  
+
   final LinkedHashMap<String, Widget> _children = new LinkedHashMap.from({
-    "N-Back": GamePage(),
+    "-Back": GamePage(),
     "Settings": SettingsPage(),
     "Statistics": StatisticsPage()
   });
@@ -30,9 +33,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    GameStateProvider gameStateProvider =
+        Provider.of<GameStateProvider>(context, listen: false);
+
+    String _title = gameStateProvider.level.toString() + _children.keys.toList()[_currentIndex];
+        
     return Scaffold(
       appBar: AppBar(
-        title: Text(_children.keys.toList()[_currentIndex]),
+        title: Text(_title),
         centerTitle: true,
       ),
       body: _children.values.toList()[_currentIndex],
