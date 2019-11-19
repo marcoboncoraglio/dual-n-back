@@ -30,13 +30,19 @@ class _GameState extends State<Game> {
     }
   }
 
-  void _reset() {
-    //Provider.of<GameStateProvider>(context, listen: false).reset();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    Provider.of<GameStateProvider>(context, listen: false).reset();
   }
 
   @override
   void dispose() {
-    _reset();
     timer?.cancel();
     super.dispose();
   }
@@ -53,8 +59,8 @@ class _GameState extends State<Game> {
 
     // speak after build, make sure it only played when state is correct
     if (gameStateProvider.isPlaying) {
-      gameRounds[currentRound].auditoryInput.speak();
       _startGameTimer();
+      gameRounds[currentRound].auditoryInput.speak();
     }
 
     return Column(children: <Widget>[

@@ -20,7 +20,7 @@ class _RouterState extends State<Router> {
   int _currentIndex = 0;
 
   final LinkedHashMap<String, Widget> _children = new LinkedHashMap.from({
-    "-Back": GamePage(),
+    "N-Back": GamePage(),
     "Settings": SettingsPage(),
     "Statistics": StatisticsPage()
   });
@@ -33,14 +33,10 @@ class _RouterState extends State<Router> {
 
   @override
   Widget build(BuildContext context) {
-    GameStateProvider gameStateProvider =
-        Provider.of<GameStateProvider>(context, listen: false);
 
-    String _title = gameStateProvider.level.toString() + _children.keys.toList()[_currentIndex];
-        
     return Scaffold(
       appBar: AppBar(
-        title: Text(_title),
+        title: Text(_children.keys.toList()[_currentIndex]),
         centerTitle: true,
       ),
       body: _children.values.toList()[_currentIndex],
