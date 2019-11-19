@@ -44,7 +44,6 @@ class _GameState extends State<Game> {
     List<GameRound> gameRounds = gameStateProvider.gameRounds;
 
     int currentRound = gameStateProvider.currentRound;
-
     int level = gameStateProvider.level;
 
     // speak after build, make sure it only played when state is correct
@@ -54,9 +53,18 @@ class _GameState extends State<Game> {
     }
 
     return Column(children: <Widget>[
-      new Padding(
-          padding: EdgeInsets.only(top: 15),
-          child: new Center(child: Text("N = $level"))),
+      new Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Padding(
+            padding: EdgeInsets.only(top: 15, left: 40, right: 130),
+            child: Text("N=$level"),
+          ),
+          new Padding(
+              padding: EdgeInsets.only(top: 15, right: 40, left: 130),
+              child: new Center(child: Text("$currentRound/22"))),
+        ],
+      ),
       new Expanded(
           child: gameStateProvider.isPlaying
               ? new Grid(gameRounds[currentRound].index,
