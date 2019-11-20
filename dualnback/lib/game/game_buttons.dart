@@ -14,31 +14,22 @@ class _GameButtonsState extends State<GameButtons> {
     final gameStateProvider =
         Provider.of<GameStateProvider>(context, listen: true);
 
-    int correct = gameStateProvider.optionCounters.values
-        .map((tuple) => tuple.item2)
-        .reduce((curr, next) => curr + next);
+    int correct = gameStateProvider.getPlayerCorrect();
 
-    // possible - correct + pressed wrong
-    int wrong = gameStateProvider.optionCounters.values
-            .map((tuple) => tuple.item1)
-            .reduce((curr, next) => curr + next) +
-        gameStateProvider.optionCounters.values
-            .map((tuple) => tuple.item3)
-            .reduce((curr, next) => curr + next) -
-        correct;
+    int wrong = gameStateProvider.getPlayerWrong();
 
-    // TODO: refactor to custom button, pass in matchoption
+    // TODO: refactor to custom button, pass in matchoption?
     return Row(
       children: <Widget>[
         new Column(children: <Widget>[
           new SizedBox(
             height: 50,
-            width: 160,
+            width: 120,
             child: new RaisedButton(
                 onPressed: () =>
                     gameStateProvider.pressedOption(MatchOption.POSITION),
                 child: Text("POSITION",
-                    style: TextStyle(fontSize: 20, color: Colors.black))),
+                    style: TextStyle(fontSize: 15, color: Colors.black))),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
@@ -50,12 +41,12 @@ class _GameButtonsState extends State<GameButtons> {
           children: <Widget>[
             new SizedBox(
               height: 50,
-              width: 160,
+              width: 120,
               child: new RaisedButton(
                   onPressed: () =>
                       gameStateProvider.pressedOption(MatchOption.SOUND),
                   child: Text("SOUND",
-                      style: TextStyle(fontSize: 20, color: Colors.black))),
+                      style: TextStyle(fontSize: 15, color: Colors.black))),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),

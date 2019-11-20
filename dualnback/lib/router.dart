@@ -4,9 +4,7 @@ import 'package:dualnback/game_page.dart';
 import 'package:dualnback/settings_page.dart';
 import 'package:dualnback/statistics_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'game/game_state_provider.dart';
 
 class Router extends StatefulWidget {
   Router({Key key}) : super(key: key);

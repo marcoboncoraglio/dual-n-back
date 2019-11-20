@@ -3,24 +3,55 @@ import 'package:tuple/tuple.dart';
 
 import 'game_round.dart';
 
-enum MatchOption { POSITION, SOUND /* , SHAPE, COLOR */ }
+enum MatchOption { POSITION, SOUND /* , SHAPE, COLOR */}
 
 class GameStateProvider with ChangeNotifier {
-  List<GameRound> gameRounds = [new GameRound()];
-  int currentRound = 0;
+  GameStateProvider() {
+    reset();
+  }
 
-  bool isPlaying = false;
+  List<GameRound> gameRounds;
+  int currentRound;
 
+  bool isPlaying;
+
+  // load from sqlite 
   int level = 1;
-  
+
   int timerInterval = 2000;
+
+  int totalRounds = 20;
+
   // option to correct, right, wrong
-  Map<MatchOption, Tuple3<int, int, int>> optionCounters = {
-    MatchOption.POSITION: new Tuple3(0, 0, 0),
-    MatchOption.SOUND: new Tuple3(0, 0, 0),
-    //MatchOption.SHAPE: new Tuple2(0, 0),
-    //MatchOption.COLOR: new Tuple2(0, 0)
-  };
+  Map<MatchOption, Tuple3<int, int, int>> optionCounters;
+
+  int getPossibleCorrect() {
+    return optionCounters.values
+            .map((tuple) => tuple.item1)
+            .reduce((curr, next) => curr + next);
+  }
+
+  int getPlayerCorrect() {
+    return optionCounters.values
+        .map((tuple) => tuple.item2)
+        .reduce((curr, next) => curr + next);
+  }
+
+  int getPlayerWrong() {
+        return getPossibleCorrect() - getPlayerCorrect() +
+        optionCounters.values
+            .map((tuple) => tuple.item3)
+            .reduce((curr, next) => curr + next);
+  }
+
+  _initMap() {
+    optionCounters = {
+      MatchOption.POSITION: new Tuple3(0, 0, 0),
+      MatchOption.SOUND: new Tuple3(0, 0, 0),
+      //MatchOption.SHAPE: new Tuple2(0, 0),
+      //MatchOption.COLOR: new Tuple2(0, 0)
+    };
+  }
 
   toggleIsPlaying() {
     isPlaying = !isPlaying;
@@ -39,6 +70,7 @@ class GameStateProvider with ChangeNotifier {
     currentRound = 0;
     gameRounds = [new GameRound()];
     isPlaying = false;
+    _initMap();
   }
 
   bool _checkMatching(MatchOption option) {

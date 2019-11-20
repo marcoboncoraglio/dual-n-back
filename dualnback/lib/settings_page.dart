@@ -27,7 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 padding: const EdgeInsets.only(left: 15.0),
                 child: new Text(
                   "Level",
-                  textScaleFactor: 1.5,
+                  textScaleFactor: 1.3,
                   style: new TextStyle(color: Colors.black),
                 ),
               ),
@@ -48,7 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 padding: const EdgeInsets.only(left: 15, top: 20),
                 child: new Text(
                   "Time per round (ms)",
-                  textScaleFactor: 1.5,
+                  textScaleFactor: 1.3,
                   style: new TextStyle(color: Colors.black),
                 ),
               ),

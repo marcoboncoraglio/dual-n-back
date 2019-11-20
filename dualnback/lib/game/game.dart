@@ -4,6 +4,7 @@ import 'package:dualnback/game/game_buttons.dart';
 import 'package:dualnback/game/game_round.dart';
 import 'package:dualnback/game/grid.dart';
 import 'package:dualnback/game/play_button.dart';
+import 'package:dualnback/game/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,11 +32,6 @@ class _GameState extends State<Game> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   void deactivate() {
     super.deactivate();
     Provider.of<GameStateProvider>(context, listen: false).reset();
@@ -55,12 +51,20 @@ class _GameState extends State<Game> {
     List<GameRound> gameRounds = gameStateProvider.gameRounds;
 
     int currentRound = gameStateProvider.currentRound;
+    int totalRounds = gameStateProvider.totalRounds;
     int level = gameStateProvider.level;
 
     // speak after build, make sure it only played when state is correct
     if (gameStateProvider.isPlaying) {
-      _startGameTimer();
       gameRounds[currentRound].auditoryInput.speak();
+      _startGameTimer();
+    }
+
+    // when game is complete, show dialog, trigger reset
+    if (currentRound > totalRounds) {
+      timer?.cancel();
+      //gameStateProvider.toggleIsPlaying();
+      return ResultPage();
     }
 
     return Column(children: <Widget>[
@@ -68,12 +72,12 @@ class _GameState extends State<Game> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           new Padding(
-            padding: EdgeInsets.only(top: 15, left: 40, right: 130),
+            padding: EdgeInsets.only(top: 15, left: 40, right: 100),
             child: Text("N=$level"),
           ),
           new Padding(
-              padding: EdgeInsets.only(top: 15, right: 40, left: 130),
-              child: new Center(child: Text("$currentRound/22"))),
+              padding: EdgeInsets.only(top: 15, right: 40, left: 50),
+              child: new Center(child: Text("$currentRound/$totalRounds"))),
         ],
       ),
       new Expanded(
@@ -82,10 +86,10 @@ class _GameState extends State<Game> {
                   gameRounds[currentRound].visualInput)
               : new Grid.init()),
       new Padding(
-          padding: EdgeInsets.only(right: 20, bottom: 50, left: 20),
+          padding: EdgeInsets.only(right: 20, bottom: 15, left: 20),
           child: gameStateProvider.isPlaying
               ? new GameButtons()
-              : new PlayButton())
+              : new PlayButton()),
     ]);
   }
 }
