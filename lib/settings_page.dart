@@ -14,54 +14,67 @@ class _SettingsPageState extends State<SettingsPage> {
     GameStateProvider gameStateProvider =
         Provider.of<GameStateProvider>(context, listen: false);
     int _level = gameStateProvider.level;
-    int _speed = gameStateProvider.timerInterval;
+    int _interval = gameStateProvider.timerInterval;
+    int _totalRounds = gameStateProvider.totalRounds;
 
     return Padding(
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.fromLTRB(30, 50, 30, 30),
       child: Column(
         children: <Widget>[
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: new Text(
-                  "Level",
-                  textScaleFactor: 1.3,
-                  style: new TextStyle(color: Colors.black),
-                ),
+              new Text(
+                "Level",
+                textScaleFactor: 1.2,
+                style: new TextStyle(color: Colors.black),
               ),
+              new Slider(
+                  min: 1,
+                  max: 10,
+                  divisions: 9,
+                  value: gameStateProvider.level.toDouble(),
+                  label: "$_level",
+                  onChanged: (val) =>
+                      setState(() => gameStateProvider.level = val.toInt())),
             ],
           ),
-          new Slider(
-              min: 1,
-              max: 10,
-              divisions: 9,
-              value: gameStateProvider.level.toDouble(),
-              label: "$_level",
-              onChanged: (val) =>
-                  setState(() => gameStateProvider.level = val.toInt())),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 15, top: 20),
-                child: new Text(
-                  "Time per round (ms)",
-                  textScaleFactor: 1.3,
-                  style: new TextStyle(color: Colors.black),
-                ),
+              new Text(
+                "Time per round (ms)",
+                textScaleFactor: 1.2,
+                style: new TextStyle(color: Colors.black),
               ),
+              new Slider(
+                  min: 1000,
+                  max: 3000,
+                  divisions: 10,
+                  value: gameStateProvider.timerInterval.toDouble(),
+                  label: "$_interval",
+                  onChanged: (val) => setState(
+                      () => gameStateProvider.timerInterval = val.toInt())),
             ],
           ),
-          new Slider(
-              min: 1000,
-              max: 3000,
-              divisions: 10,
-              value: gameStateProvider.timerInterval.toDouble(),
-              label: "$_speed",
-              onChanged: (val) =>
-                  setState(() => gameStateProvider.timerInterval = val.toInt())),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Text(
+                "Rounds per game",
+                textScaleFactor: 1.2,
+                style: new TextStyle(color: Colors.black),
+              ),
+              new Slider(
+                  min: 15,
+                  max: 40,
+                  divisions: 34,
+                  value: gameStateProvider.totalRounds.toDouble(),
+                  label: "$_totalRounds",
+                  onChanged: (val) => setState(
+                      () => gameStateProvider.totalRounds = val.toInt())),
+            ],
+          ),
         ],
       ),
     );

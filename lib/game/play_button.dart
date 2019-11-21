@@ -12,12 +12,15 @@ class PlayButton extends StatelessWidget {
         Provider.of<GameStateProvider>(context, listen: true);
 
     return Container(
-        child: new SizedBox(
-      width: 200,
-      height: 50,
-      child: new RaisedButton(
-          onPressed: () => gameStateProvider.toggleIsPlaying(),
-          child: new Text("PLAY!")),
+        child: Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: SizedBox(
+        width: 200,
+        height: 50,
+        child: RaisedButton(
+            onPressed: () => gameStateProvider.toggleIsPlaying(),
+            child: new Text("PLAY!")),
+      ),
     ));
   }
 }
