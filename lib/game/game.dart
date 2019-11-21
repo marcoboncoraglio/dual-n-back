@@ -63,8 +63,6 @@ class _GameState extends State<Game> {
     if (currentRound >= totalRounds) {
       timer?.cancel();
 
-      //return ResultPage();
-
       Future.delayed(
           new Duration(milliseconds: gameStateProvider.timerInterval),
           () => Navigator.push(

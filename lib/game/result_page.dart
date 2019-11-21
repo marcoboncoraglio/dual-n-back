@@ -83,28 +83,34 @@ class ResultPage extends StatelessWidget {
     GameStateProvider gameStateProvider =
         Provider.of<GameStateProvider>(context, listen: false);
 
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Center(
-              child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Text(
-              "Round over!",
-              style: new TextStyle(fontSize: 20),
-            ),
-          )),
-          _makeRoundResultChart(gameStateProvider),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: RaisedButton(
-                onPressed: () => _reset(context),
-                child: Text("PLAY AGAIN!"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("N-Back"),
+        centerTitle: true,
+      ),
+      body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Center(
+                child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Text(
+                "Round over!",
+                style: new TextStyle(fontSize: 20),
               ),
-            ),
-          )
-        ]);
+            )),
+            _makeRoundResultChart(gameStateProvider),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: RaisedButton(
+                  onPressed: () => _reset(context),
+                  child: Text("PLAY AGAIN!"),
+                ),
+              ),
+            )
+          ]),
+    );
   }
 }
 
