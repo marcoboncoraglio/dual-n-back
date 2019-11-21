@@ -8,7 +8,7 @@ class AuditoryInput {
   }
 
   String letter;
-  List<String> possibleLetters = ["a", "b", "f", "h", "l", "i", "k", "m", "o"];
+  List<String> possibleLetters = ["b", "f", "h", "l", "i", "k", "m", "o"];
   static FlutterTts tts = new FlutterTts();
 
   speak(){

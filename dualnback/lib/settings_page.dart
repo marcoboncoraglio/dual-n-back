@@ -36,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
           new Slider(
               min: 1,
               max: 10,
-              divisions: 10,
+              divisions: 9,
               value: gameStateProvider.level.toDouble(),
               label: "$_level",
               onChanged: (val) =>

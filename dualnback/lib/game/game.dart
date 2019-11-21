@@ -23,7 +23,7 @@ class _GameState extends State<Game> {
   }
 
   void _startGameTimer() {
-    if (timer == null) {
+    if (timer == null || !timer.isActive) {
       int timerInterval =
           Provider.of<GameStateProvider>(context, listen: false).timerInterval;
       timer = Timer.periodic(Duration(milliseconds: timerInterval),
@@ -60,25 +60,25 @@ class _GameState extends State<Game> {
       _startGameTimer();
     }
 
-    // when game is complete, show dialog, trigger reset
-    if (currentRound > totalRounds) {
+    if (currentRound >= totalRounds) {
       timer?.cancel();
-      //gameStateProvider.toggleIsPlaying();
-      return ResultPage();
+
+      Future.delayed(
+          new Duration(milliseconds: gameStateProvider.timerInterval),
+          () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ResultPage())));
     }
 
     return Column(children: <Widget>[
-      new Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          new Padding(
-            padding: EdgeInsets.only(top: 15, left: 40, right: 100),
-            child: Text("N=$level"),
-          ),
-          new Padding(
-              padding: EdgeInsets.only(top: 15, right: 40, left: 50),
-              child: new Center(child: Text("$currentRound/$totalRounds"))),
-        ],
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text("N=$level"),
+            Text("$currentRound/$totalRounds"),
+          ],
+        ),
       ),
       new Expanded(
           child: gameStateProvider.isPlaying

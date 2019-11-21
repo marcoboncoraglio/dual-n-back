@@ -51,11 +51,8 @@ class ResultPage extends StatelessWidget {
     return resultList;
   }
 
-  Widget _makeRoundResultChart(context) {
+  Widget _makeRoundResultChart(GameStateProvider gameStateProvider) {
     List<charts.Series<_RoundResults, String>> seriesList = [];
-
-    GameStateProvider gameStateProvider =
-        Provider.of<GameStateProvider>(context, listen: false);
 
     gameStateProvider.optionCounters.forEach((opt, tuple) => seriesList.add(
         new charts.Series<_RoundResults, String>(
@@ -76,8 +73,16 @@ class ResultPage extends StatelessWidget {
     );
   }
 
+  void _reset(context) {
+    Provider.of<GameStateProvider>(context, listen: false).reset();
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    GameStateProvider gameStateProvider =
+        Provider.of<GameStateProvider>(context, listen: false);
+
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -89,13 +94,12 @@ class ResultPage extends StatelessWidget {
               style: new TextStyle(fontSize: 20),
             ),
           )),
-          _makeRoundResultChart(context),
+          _makeRoundResultChart(gameStateProvider),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: RaisedButton(
-                onPressed: () =>
-                    null, // TODO: does not work, push this page to stack then pop here?
+                onPressed: () => _reset(context),
                 child: Text("PLAY AGAIN!"),
               ),
             ),

@@ -20,7 +20,7 @@ class GameStateProvider with ChangeNotifier {
 
   int timerInterval = 2000;
 
-  int totalRounds = 20;
+  int totalRounds = 5;
 
   // option to correct, right, wrong
   Map<MatchOption, Tuple3<int, int, int>> optionCounters;

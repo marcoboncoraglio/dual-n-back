@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 
 import 'game/game_state_provider.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(ChangeNotifierProvider(
+    builder: (context) => GameStateProvider(),
+    child: Container(child: MyApp())));
 
 class MyApp extends StatelessWidget {
   @override
@@ -25,8 +27,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        builder: (context) => GameStateProvider(),
-        child: Container(child: Router()));
+    return Container(child: Router());
   }
 }
