@@ -1,3 +1,4 @@
+import 'package:dualnback/game/auditory_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,14 +14,19 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     GameStateProvider gameStateProvider =
         Provider.of<GameStateProvider>(context, listen: false);
-    int _level = gameStateProvider.level;
-    int _interval = gameStateProvider.timerInterval;
-    int _totalRounds = gameStateProvider.totalRounds;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(30, 50, 30, 30),
+      padding: EdgeInsets.fromLTRB(30, 40, 30, 30),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Text(
+            "Game",
+            style: TextStyle(fontSize: 26),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -34,7 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   max: 10,
                   divisions: 9,
                   value: gameStateProvider.level.toDouble(),
-                  label: "$_level",
+                  label: "${gameStateProvider.level}",
                   onChanged: (val) =>
                       setState(() => gameStateProvider.level = val.toInt())),
             ],
@@ -52,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   max: 3000,
                   divisions: 10,
                   value: gameStateProvider.timerInterval.toDouble(),
-                  label: "$_interval",
+                  label: "${gameStateProvider.timerInterval}",
                   onChanged: (val) => setState(
                       () => gameStateProvider.timerInterval = val.toInt())),
             ],
@@ -70,9 +76,37 @@ class _SettingsPageState extends State<SettingsPage> {
                   max: 40,
                   divisions: 34,
                   value: gameStateProvider.totalRounds.toDouble(),
-                  label: "$_totalRounds",
+                  label: "${gameStateProvider.totalRounds}",
                   onChanged: (val) => setState(
                       () => gameStateProvider.totalRounds = val.toInt())),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            "UI",
+            style: TextStyle(fontSize: 26),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Text(
+                "Sound",
+                textScaleFactor: 1.2,
+                style: new TextStyle(color: Colors.black),
+              ),
+              new Slider(
+                  min: 0,
+                  max: 100,
+                  divisions: 99,
+                  value: AuditoryInput.speechVolume,
+                  label: "${AuditoryInput.speechVolume.toInt()}",
+                  onChanged: (val) => setState(
+                      () => AuditoryInput.speechVolume = val)),
             ],
           ),
         ],

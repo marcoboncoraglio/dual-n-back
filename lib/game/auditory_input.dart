@@ -11,15 +11,21 @@ class AuditoryInput {
   List<String> possibleLetters = ["b", "f", "h", "l", "i", "k", "m", "o"];
 
   static FlutterTts tts = _initTts();
+  static double speechVolume = 99;
 
   static FlutterTts _initTts() {
     tts = new FlutterTts();
-    tts.setLanguage("en-US");
-    tts.setSpeechRate(1.0);
+    tts.setSpeechRate(0.8);
+    tts.setVolume(speechVolume);
     return tts;
   }
 
   speak(){
     tts.speak(letter);
+  }
+
+  static setSpeechVolume(double vol){
+    speechVolume = vol;
+    tts.setVolume(speechVolume);
   }
 }
