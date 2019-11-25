@@ -57,7 +57,7 @@ class _GameState extends State<Game> {
       gameRounds[currentRound].auditoryInput.speak();
     }
 
-    if (currentRound >= GameSettings.level) {
+    if (currentRound >= GameSettings.totalRounds) {
       timer?.cancel();
 
       Future.delayed(
@@ -72,7 +72,7 @@ class _GameState extends State<Game> {
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text("N=${GameSettings.timerInterval}"),
+            Text("N=${GameSettings.level}"),
             Text("$currentRound/${GameSettings.totalRounds}"),
           ],
         ),
