@@ -1,12 +1,17 @@
+import 'package:dualnback/game/game_settings.dart';
 import 'package:dualnback/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'game/game_state_provider.dart';
 
-void main() => runApp(ChangeNotifierProvider(
-    builder: (context) => GameStateProvider(),
-    child: Container(child: MyApp())));
+void main() async => {
+      await GameSettings.init(),
+
+      runApp(MultiProvider(providers: [
+        ChangeNotifierProvider(builder: (_) => GameStateProvider())
+      ], child: Container(child: MyApp())))
+    };
 
 class MyApp extends StatelessWidget {
   @override

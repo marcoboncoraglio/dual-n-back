@@ -1,8 +1,6 @@
 import 'package:dualnback/game/auditory_input.dart';
+import 'package:dualnback/game/game_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'game/game_state_provider.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -11,10 +9,13 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   @override
-  Widget build(BuildContext context) {
-    GameStateProvider gameStateProvider =
-        Provider.of<GameStateProvider>(context, listen: false);
+  void dispose() {
+    GameSettings.save();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
       child: Column(
@@ -38,10 +39,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   min: 1,
                   max: 10,
                   divisions: 9,
-                  value: gameStateProvider.level.toDouble(),
-                  label: "${gameStateProvider.level}",
+                  value: GameSettings.level.toDouble(),
+                  label: "${GameSettings.level}",
                   onChanged: (val) =>
-                      setState(() => gameStateProvider.level = val.toInt())),
+                      setState(() => GameSettings.level = val.toInt())),
             ],
           ),
           Row(
@@ -55,10 +56,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   min: 1000,
                   max: 3000,
                   divisions: 10,
-                  value: gameStateProvider.timerInterval.toDouble(),
-                  label: "${gameStateProvider.timerInterval}",
-                  onChanged: (val) => setState(
-                      () => gameStateProvider.timerInterval = val.toInt())),
+                  value: GameSettings.timerInterval.toDouble(),
+                  label: "${GameSettings.timerInterval}",
+                  onChanged: (val) =>
+                      setState(() => GameSettings.timerInterval = val.toInt())),
             ],
           ),
           Row(
@@ -72,10 +73,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   min: 15,
                   max: 40,
                   divisions: 34,
-                  value: gameStateProvider.totalRounds.toDouble(),
-                  label: "${gameStateProvider.totalRounds}",
-                  onChanged: (val) => setState(
-                      () => gameStateProvider.totalRounds = val.toInt())),
+                  value: GameSettings.totalRounds.toDouble(),
+                  label: "${GameSettings.totalRounds}",
+                  onChanged: (val) =>
+                      setState(() => GameSettings.totalRounds = val.toInt())),
             ],
           ),
           SizedBox(
@@ -99,10 +100,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   min: 0,
                   max: 100,
                   divisions: 99,
-                  value: AuditoryInput.speechVolume,
-                  label: "${AuditoryInput.speechVolume.toInt()}",
-                  onChanged: (val) => setState(
-                      () => AuditoryInput.speechVolume = val)),
+                  value: GameSettings.speechVolume,
+                  label: "${GameSettings.speechVolume.toInt()}",
+                  onChanged: (val) => {
+                        setState(() => GameSettings.speechVolume = val),
+                        AuditoryInput.setSpeechVolume()
+                      }),
             ],
           ),
         ],

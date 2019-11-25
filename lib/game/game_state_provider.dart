@@ -1,3 +1,4 @@
+import 'package:dualnback/game/game_settings.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tuple/tuple.dart';
 
@@ -14,13 +15,6 @@ class GameStateProvider with ChangeNotifier {
   int currentRound;
 
   bool isPlaying;
-
-  // load from sqlite 
-  int level = 1;
-
-  int timerInterval = 2000;
-
-  int totalRounds = 20;
 
   // option to correct, right, wrong
   Map<MatchOption, Tuple3<int, int, int>> optionCounters;
@@ -76,10 +70,10 @@ class GameStateProvider with ChangeNotifier {
   bool _checkMatching(MatchOption option) {
     switch (option) {
       case MatchOption.POSITION:
-        return gameRounds[gameRounds.length - level - 1].index ==
+        return gameRounds[gameRounds.length - GameSettings.level - 1].index ==
             gameRounds[gameRounds.length - 1].index;
       case MatchOption.SOUND:
-        return gameRounds[gameRounds.length - level - 1].auditoryInput.letter ==
+        return gameRounds[gameRounds.length - GameSettings.level - 1].auditoryInput.letter ==
             gameRounds[gameRounds.length - 1].auditoryInput.letter;
       /* case MatchOption.SHAPE:
       case MatchOption.COLOR: */
@@ -88,7 +82,7 @@ class GameStateProvider with ChangeNotifier {
   }
 
   void _checkOptions() {
-    if (gameRounds.length - level > 0) {
+    if (gameRounds.length - GameSettings.level > 0) {
       for (MatchOption opt in optionCounters.keys) {
         if (_checkMatching(opt)) {
           optionCounters[opt] = new Tuple3(optionCounters[opt].item1 + 1,
@@ -99,7 +93,7 @@ class GameStateProvider with ChangeNotifier {
   }
 
   pressedOption(MatchOption option) {
-    if (gameRounds.length - level > 0) {
+    if (gameRounds.length - GameSettings.level > 0) {
       if (!gameRounds[currentRound].pressed[option]) {
         gameRounds[currentRound].pressed[option] = true;
         if (_checkMatching(option)) {

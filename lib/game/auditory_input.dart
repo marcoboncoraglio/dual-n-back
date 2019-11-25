@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dualnback/game/game_settings.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 class AuditoryInput {
@@ -11,12 +12,11 @@ class AuditoryInput {
   List<String> possibleLetters = ["b", "f", "h", "l", "i", "k", "m", "o"];
 
   static FlutterTts tts = _initTts();
-  static double speechVolume = 99;
 
   static FlutterTts _initTts() {
     tts = new FlutterTts();
     tts.setSpeechRate(0.8);
-    tts.setVolume(speechVolume);
+    tts.setVolume(GameSettings.speechVolume);
     return tts;
   }
 
@@ -24,8 +24,7 @@ class AuditoryInput {
     tts.speak(letter);
   }
 
-  static setSpeechVolume(double vol){
-    speechVolume = vol;
-    tts.setVolume(speechVolume);
+  static setSpeechVolume(){
+    tts.setVolume(GameSettings.speechVolume);
   }
 }

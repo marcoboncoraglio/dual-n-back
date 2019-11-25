@@ -8,6 +8,7 @@ import 'package:dualnback/game/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'game_settings.dart';
 import 'game_state_provider.dart';
 
 class Game extends StatefulWidget {
@@ -24,9 +25,7 @@ class _GameState extends State<Game> {
 
   void _startGameTimer() {
     if (timer == null || !timer.isActive) {
-      int timerInterval =
-          Provider.of<GameStateProvider>(context, listen: false).timerInterval;
-      timer = Timer.periodic(Duration(milliseconds: timerInterval),
+      timer = Timer.periodic(Duration(milliseconds: GameSettings.timerInterval),
           (Timer t) => _generateNewRound());
     }
   }
@@ -51,8 +50,6 @@ class _GameState extends State<Game> {
     List<GameRound> gameRounds = gameStateProvider.gameRounds;
 
     int currentRound = gameStateProvider.currentRound;
-    int totalRounds = gameStateProvider.totalRounds;
-    int level = gameStateProvider.level;
 
     // speak after build, make sure it only played when state is correct
     if (gameStateProvider.isPlaying) {
@@ -60,11 +57,11 @@ class _GameState extends State<Game> {
       gameRounds[currentRound].auditoryInput.speak();
     }
 
-    if (currentRound >= totalRounds) {
+    if (currentRound >= GameSettings.level) {
       timer?.cancel();
 
       Future.delayed(
-          new Duration(milliseconds: gameStateProvider.timerInterval),
+          new Duration(milliseconds: GameSettings.timerInterval),
           () => Navigator.push(
               context, MaterialPageRoute(builder: (context) => ResultPage())));
     }
@@ -75,8 +72,8 @@ class _GameState extends State<Game> {
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text("N=$level"),
-            Text("$currentRound/$totalRounds"),
+            Text("N=${GameSettings.timerInterval}"),
+            Text("$currentRound/${GameSettings.totalRounds}"),
           ],
         ),
       ),
