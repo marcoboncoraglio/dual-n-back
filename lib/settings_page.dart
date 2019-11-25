@@ -16,7 +16,7 @@ class _SettingsPageState extends State<SettingsPage> {
         Provider.of<GameStateProvider>(context, listen: false);
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(30, 40, 30, 30),
+      padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -32,7 +32,6 @@ class _SettingsPageState extends State<SettingsPage> {
             children: <Widget>[
               new Text(
                 "Level",
-                textScaleFactor: 1.2,
                 style: new TextStyle(color: Colors.black),
               ),
               new Slider(
@@ -49,8 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               new Text(
-                "Time per round (ms)",
-                textScaleFactor: 1.2,
+                "Time per round",
                 style: new TextStyle(color: Colors.black),
               ),
               new Slider(
@@ -67,8 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               new Text(
-                "Rounds per game",
-                textScaleFactor: 1.2,
+                "Total rounds",
                 style: new TextStyle(color: Colors.black),
               ),
               new Slider(
@@ -96,7 +93,6 @@ class _SettingsPageState extends State<SettingsPage> {
             children: <Widget>[
               new Text(
                 "Sound",
-                textScaleFactor: 1.2,
                 style: new TextStyle(color: Colors.black),
               ),
               new Slider(

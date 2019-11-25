@@ -71,7 +71,7 @@ class _GameState extends State<Game> {
 
     return Column(children: <Widget>[
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -86,7 +86,7 @@ class _GameState extends State<Game> {
                   gameRounds[currentRound].visualInput)
               : new Grid.init()),
       new Padding(
-          padding: EdgeInsets.only(right: 20, bottom: 15, left: 20),
+          padding: EdgeInsets.only(right: 20, bottom: 10, left: 20),
           child: gameStateProvider.isPlaying
               ? new GameButtons()
               : new PlayButton()),
