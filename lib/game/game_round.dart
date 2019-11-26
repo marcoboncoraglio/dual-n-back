@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import './game_state_provider.dart';
 
-//TODO: refactor index in visualInput, looks bad outside
 class GameRound {
   GameRound() {
     visualInput = new VisualInput(BoxShape.rectangle, Colors.black);

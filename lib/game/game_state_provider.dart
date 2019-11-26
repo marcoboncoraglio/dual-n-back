@@ -16,7 +16,7 @@ class GameStateProvider with ChangeNotifier {
 
   bool isPlaying;
 
-  // option to correct, right, wrong
+  // option to possible, correct, wrong
   Map<MatchOption, Tuple3<int, int, int>> optionCounters;
 
   int getPossibleCorrect() {

@@ -74,7 +74,8 @@ class ResultPage extends StatelessWidget {
   }
 
   void _reset(context) {
-    Provider.of<GameStateProvider>(context, listen: false).reset();
+    final GameStateProvider provider = Provider.of<GameStateProvider>(context, listen: false);
+    provider.reset();
     Navigator.pop(context);
   }
 
