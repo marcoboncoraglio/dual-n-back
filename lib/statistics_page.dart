@@ -10,9 +10,9 @@ class _StatisticsPageState extends State<StatisticsPage> {
   Widget build(BuildContext context) {
     return Container(
         child: Center(
-      child: new Text(
-        "Statistics",
-        style: new TextStyle(color: Colors.black, fontSize: 20.0),
+      child: SizedBox(
+        height: 300,
+        child: Text("hi"),
       ),
     ));
   }

@@ -19,23 +19,34 @@ class GameStateProvider with ChangeNotifier {
   // option to possible, correct, wrong
   Map<MatchOption, Tuple3<int, int, int>> optionCounters;
 
-  int getPossibleCorrect() {
+  int getTotalPossibleCorrect() {
     return optionCounters.values
-            .map((tuple) => tuple.item1)
-            .reduce((curr, next) => curr + next);
+        .map((tuple) => tuple.item1)
+        .reduce((curr, next) => curr + next);
   }
 
-  int getPlayerCorrect() {
+  int getTotalPlayerCorrect() {
     return optionCounters.values
         .map((tuple) => tuple.item2)
         .reduce((curr, next) => curr + next);
   }
 
-  int getPlayerWrong() {
-        return getPossibleCorrect() - getPlayerCorrect() +
+  int getTotalPlayerWrong() {
+        return getTotalPossibleCorrect() - getTotalPlayerCorrect() +
         optionCounters.values
             .map((tuple) => tuple.item3)
             .reduce((curr, next) => curr + next);
+  }
+
+  double getCorrectPercentage(MatchOption opt){
+    int possible = optionCounters[opt].item1;
+    int correct = optionCounters[opt].item2;
+    int wrong = optionCounters[opt].item3;
+
+    if (correct - wrong >= 0){
+      return (correct - wrong)/possible;
+    } 
+    else return 0;
   }
 
   _initMap() {
@@ -54,6 +65,7 @@ class GameStateProvider with ChangeNotifier {
 
   generateNewRound() {
     _checkOptions();
+    // Todo: add repetition rate
     gameRounds.add(new GameRound());
     currentRound++;
     notifyListeners();

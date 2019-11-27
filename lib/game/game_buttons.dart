@@ -14,9 +14,9 @@ class _GameButtonsState extends State<GameButtons> {
     final gameStateProvider =
         Provider.of<GameStateProvider>(context, listen: true);
 
-    int correct = gameStateProvider.getPlayerCorrect();
+    int correct = gameStateProvider.getTotalPlayerCorrect();
 
-    int wrong = gameStateProvider.getPlayerWrong();
+    int wrong = gameStateProvider.getTotalPlayerWrong();
 
     // TODO: refactor to custom button, pass in matchoption?
     return Row(

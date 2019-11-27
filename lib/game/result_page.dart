@@ -63,7 +63,7 @@ class ResultPage extends StatelessWidget {
             measureFn: (i, j) => i.value)));
 
     return new SizedBox(
-      height: 200,
+      height: 150,
       child: new charts.BarChart(
         seriesList,
         animate: true,
@@ -74,9 +74,22 @@ class ResultPage extends StatelessWidget {
   }
 
   void _reset(context) {
-    final GameStateProvider provider = Provider.of<GameStateProvider>(context, listen: false);
+    final GameStateProvider provider =
+        Provider.of<GameStateProvider>(context, listen: false);
     provider.reset();
     Navigator.pop(context);
+  }
+
+  Widget _outputPercentages(GameStateProvider gameStateProvider) {
+    List<Widget> percentages = [];
+    gameStateProvider.optionCounters.forEach((opt, tuple) => percentages.add(
+        new Text(
+            "${opt.toString().split('.')[1].toLowerCase()}: ${tuple.item2 - tuple.item3 / tuple.item1} %")));
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(children: percentages),
+    );
   }
 
   @override
@@ -101,6 +114,7 @@ class ResultPage extends StatelessWidget {
               ),
             )),
             _makeRoundResultChart(gameStateProvider),
+            _outputPercentages(gameStateProvider),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
