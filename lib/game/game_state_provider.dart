@@ -43,8 +43,8 @@ class GameStateProvider with ChangeNotifier {
     int correct = optionCounters[opt].item2;
     int wrong = optionCounters[opt].item3;
 
-    if (correct - wrong >= 0){
-      return (correct - wrong)/possible;
+    if (correct - wrong >= 0 && possible > 0){
+      return ((correct - wrong)/possible) * 100;
     } 
     else return 0;
   }

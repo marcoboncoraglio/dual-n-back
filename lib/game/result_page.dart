@@ -1,71 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:tuple/tuple.dart';
 
 import 'game_state_provider.dart';
 
 class ResultPage extends StatelessWidget {
   const ResultPage({Key key}) : super(key: key);
 
-  String _getLabel(int i) {
-    String label;
-    switch (i) {
-      case 0:
-        label = "Possible";
-        break;
-      case 1:
-        label = "Correct"; // True Posivitve
-        break;
-      case 2:
-        label = "Wrong"; // False Positive
-        break;
-    }
-    return label;
-  }
-
-  List<_RoundResults> _makeResults(
-      Map<MatchOption, Tuple3<int, int, int>> optionCounters, MatchOption opt) {
-    List<_RoundResults> resultList = [];
-
-    for (int i = 0; i < 3; i++) {
-      switch (i) {
-        case 0:
-          resultList
-              .add(new _RoundResults(_getLabel(i), optionCounters[opt].item1));
-          break;
-        case 1:
-          resultList
-              .add(new _RoundResults(_getLabel(i), optionCounters[opt].item2));
-          break;
-        case 2:
-          resultList.add(new _RoundResults(
-              _getLabel(i),
-              optionCounters[opt].item3 +
-                  optionCounters[opt].item1 -
-                  optionCounters[opt].item2));
-          break;
-      }
-    }
-
-    return resultList;
-  }
-
   Widget _makeRoundResultChart(GameStateProvider gameStateProvider) {
     List<charts.Series<_RoundResults, String>> seriesList = [];
 
-    gameStateProvider.optionCounters.forEach((opt, tuple) => seriesList.add(
-        new charts.Series<_RoundResults, String>(
+    gameStateProvider.optionCounters.forEach(
+        (opt, tuple) => seriesList.add(new charts.Series<_RoundResults, String>(
             id: opt.toString().split('.')[1].toLowerCase(),
             seriesCategory: opt.toString().split('.')[1].toLowerCase(),
-            data: _makeResults(gameStateProvider.optionCounters, opt),
-            domainFn: (i, j) => i.label,
-            measureFn: (i, j) => i.value)));
+            data: List<_RoundResults>.from([
+              _RoundResults(opt.toString().split('.')[1].toLowerCase(),
+                  gameStateProvider.getCorrectPercentage(opt))
+            ]),
+            domainFn: (i, j) => i.option,
+            measureFn: (i, j) => i.percent)));
 
     return new SizedBox(
       height: 150,
       child: new charts.BarChart(
         seriesList,
+        primaryMeasureAxis: new charts.NumericAxisSpec(
+          tickProviderSpec: new charts.StaticNumericTickProviderSpec(
+            <charts.TickSpec<num>>[
+              charts.TickSpec<num>(0),
+              charts.TickSpec<num>(25),
+              charts.TickSpec<num>(50),
+              charts.TickSpec<num>(75),
+              charts.TickSpec<num>(100),
+            ],
+          ),
+        ),
         animate: true,
         barGroupingType: charts.BarGroupingType.grouped,
         behaviors: [new charts.SeriesLegend()],
@@ -84,7 +54,7 @@ class ResultPage extends StatelessWidget {
     List<Widget> percentages = [];
     gameStateProvider.optionCounters.forEach((opt, tuple) => percentages.add(
         new Text(
-            "${opt.toString().split('.')[1].toLowerCase()}: ${tuple.item2 - tuple.item3 / tuple.item1} %")));
+            "${opt.toString().split('.')[1].toLowerCase()}: ${gameStateProvider.getCorrectPercentage(opt).toString()} %")));
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -130,8 +100,8 @@ class ResultPage extends StatelessWidget {
 }
 
 class _RoundResults {
-  String label;
-  int value;
+  String option;
+  double percent;
 
-  _RoundResults(this.label, this.value);
+  _RoundResults(this.option, this.percent);
 }
