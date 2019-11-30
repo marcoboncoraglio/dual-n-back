@@ -36,9 +36,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
     map.forEach((opt, list) => seriesList.add(
         charts.Series<_RoundResults, DateTime>(
-            seriesCategory: opt.toString().split('.')[1].toLowerCase(),
+            id: opt.toString().split('.')[1].toLowerCase(),
             data: list,
-
             domainFn: (i, j) => i.date,
             measureFn: (i, j) => i.percent)));
 
@@ -58,7 +57,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           ),
         ),
         animate: true,
-        // behaviors: [charts.SeriesLegend()],
+        behaviors: [charts.SeriesLegend()],
       ),
     );
   }
