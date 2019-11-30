@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:dualnback/game/statistics_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -6,10 +6,10 @@ import 'package:tuple/tuple.dart';
 
 import 'game/game_state_provider.dart';
 
-class StatisticsProvider with ChangeNotifier {
+class StatisticsDB {
   // Singleton
-  StatisticsProvider._();
-  static final StatisticsProvider dbProvider = StatisticsProvider._();
+  StatisticsDB._();
+  static final StatisticsDB dbProvider = StatisticsDB._();
 
   static Database _db;
 
@@ -27,8 +27,7 @@ class StatisticsProvider with ChangeNotifier {
     String dbPath = join(dir.path, 'settingsDB.db');
 
     return await openDatabase(dbPath,
-        version: 1,
-        onOpen: (db) => print("Database opened"),
+        version: 2,
         onCreate: (Database db, int version) async {
           await db.execute("CREATE TABLE Records ("
               "id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -38,9 +37,7 @@ class StatisticsProvider with ChangeNotifier {
           await db.execute("CREATE TABLE OptionCounters ("
               "counterId INTEGER PRIMARY KEY AUTOINCREMENT,"
               "recordId INTEGER,"
-              "possible INTEGER,"
-              "correct INTEGER,"
-              "wrong INTEGER,"
+              "percentage REAL,"
               "option STRING,"
               "FOREIGN KEY (recordId) REFERENCES Records(id)"
               ")");
@@ -55,20 +52,15 @@ class StatisticsProvider with ChangeNotifier {
         " VALUES ($level,datetime('now'))");
 
     optionCounters.forEach((opt, tuple) => db.rawInsert(
-        "INSERT INTO OptionCounters (recordId, possible, correct, wrong, option)"
-        " VALUES ($key, ${tuple.item1}, ${tuple.item2}, ${tuple.item3}, '${opt.toString()}')"));
+        "INSERT INTO OptionCounters (recordId, percentage, option)"
+        " VALUES ($key, ${StatisticsUtil.getCorrectPercentage(opt, optionCounters)}, '${opt.toString()}')"));
   }
 
-  void getByLevel(int level) async {
+  Future<List> getByLevel(int level) async {
     final db = await database;
-    var result = db.rawQuery(
+    var result = await db.rawQuery(
         "SELECT * FROM Records INNER JOIN OptionCounters ON Records.id = OptionCounters.recordId WHERE Records.level=$level");
-    print(await result);
-  }
-
-  void removeAll() async {
-    final db = await database;
-    db.rawQuery("DELETE FROM Records");
-    db.rawQuery("DELETE FROM OptionCounters");
+    
+    return result;
   }
 }

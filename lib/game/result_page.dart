@@ -1,3 +1,4 @@
+import 'package:dualnback/game/statistics_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -15,8 +16,10 @@ class ResultPage extends StatelessWidget {
             id: opt.toString().split('.')[1].toLowerCase(),
             seriesCategory: opt.toString().split('.')[1].toLowerCase(),
             data: List<_RoundResults>.from([
-              _RoundResults(opt.toString().split('.')[1].toLowerCase(),
-                  gameStateProvider.getCorrectPercentage(opt))
+              _RoundResults(
+                  opt.toString().split('.')[1].toLowerCase(),
+                  StatisticsUtil.getCorrectPercentage(
+                      opt, gameStateProvider.optionCounters))
             ]),
             domainFn: (i, j) => i.option,
             measureFn: (i, j) => i.percent)));
@@ -54,7 +57,7 @@ class ResultPage extends StatelessWidget {
     List<Widget> percentages = [];
     gameStateProvider.optionCounters.forEach((opt, tuple) => percentages.add(
         new Text(
-            "${opt.toString().split('.')[1].toLowerCase()}: ${gameStateProvider.getCorrectPercentage(opt).toString()} %")));
+            "${opt.toString().split('.')[1].toLowerCase()}: ${StatisticsUtil.getCorrectPercentage(opt, gameStateProvider.optionCounters)} %")));
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

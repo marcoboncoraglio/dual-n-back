@@ -1,3 +1,4 @@
+import 'package:dualnback/game/statistics_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,9 +15,9 @@ class _GameButtonsState extends State<GameButtons> {
     final gameStateProvider =
         Provider.of<GameStateProvider>(context, listen: true);
 
-    int correct = gameStateProvider.getTotalPlayerCorrect();
+    int correct = StatisticsUtil.getTotalPlayerCorrect(gameStateProvider.optionCounters);
 
-    int wrong = gameStateProvider.getTotalPlayerWrong();
+    int wrong = StatisticsUtil.getTotalPlayerWrong(gameStateProvider.optionCounters);
 
     // TODO: refactor to custom button, pass in matchoption?
     return Row(

@@ -8,7 +8,7 @@ import 'package:dualnback/game/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../statistics_db_provider.dart';
+import '../statistics_db.dart';
 import 'game_settings.dart';
 import 'game_state_provider.dart';
 
@@ -61,7 +61,7 @@ class _GameState extends State<Game> {
     if (currentRound >= GameSettings.totalRounds) {
       timer?.cancel();
 
-      StatisticsProvider.dbProvider
+      StatisticsDB.dbProvider
           .insertRecord(gameStateProvider.optionCounters, GameSettings.level);
 
       Future.delayed(

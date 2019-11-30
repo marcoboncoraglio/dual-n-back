@@ -19,36 +19,6 @@ class GameStateProvider with ChangeNotifier {
   // option to possible, correct, wrong
   Map<MatchOption, Tuple3<int, int, int>> optionCounters;
 
-  int getTotalPossibleCorrect() {
-    return optionCounters.values
-        .map((tuple) => tuple.item1)
-        .reduce((curr, next) => curr + next);
-  }
-
-  int getTotalPlayerCorrect() {
-    return optionCounters.values
-        .map((tuple) => tuple.item2)
-        .reduce((curr, next) => curr + next);
-  }
-
-  int getTotalPlayerWrong() {
-        return getTotalPossibleCorrect() - getTotalPlayerCorrect() +
-        optionCounters.values
-            .map((tuple) => tuple.item3)
-            .reduce((curr, next) => curr + next);
-  }
-
-  double getCorrectPercentage(MatchOption opt){
-    int possible = optionCounters[opt].item1;
-    int correct = optionCounters[opt].item2;
-    int wrong = optionCounters[opt].item3;
-
-    if (correct - wrong >= 0 && possible > 0){
-      return ((correct - wrong)/possible) * 100;
-    } 
-    else return 0;
-  }
-
   _initMap() {
     optionCounters = {
       MatchOption.POSITION: new Tuple3(0, 0, 0),

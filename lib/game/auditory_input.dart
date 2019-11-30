@@ -25,6 +25,6 @@ class AuditoryInput {
   }
 
   static setSpeechVolume(){
-    tts.setVolume(GameSettings.speechVolume);
+    tts.setVolume(GameSettings.speechVolume/100);
   }
 }
