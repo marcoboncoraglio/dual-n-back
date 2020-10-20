@@ -8,6 +8,3 @@ Experiment to teach myself flutter
 
 #### Persistent settings:
 ![](settings.gif)
-
-#### Statistics:
-![](statistics.gif)
